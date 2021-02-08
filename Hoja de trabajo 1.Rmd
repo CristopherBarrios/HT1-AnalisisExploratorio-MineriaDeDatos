@@ -1,0 +1,51 @@
+---
+Titulo: "Hoja de Trabajo 1"
+Autores: "Josué Sagastume, Cristopher Barrios, Diego Ruiz"
+Fecha: "8/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE}
+library(ggplot2)
+peliculas <- read.csv("tmdb-movies.csv")  
+```
+
+## Hoja de Trabajo 1  
+### Informe de analisis Exploratorio de peliculas
+
+#### Descripción del Conjunto de Datos  
+El conjunto de datos está compuesto por  
+```{r echo=FALSE}
+ncol(peliculas)
+```
+observaciones de
+```{r echo=FALSE}
+nrow(peliculas)
+```
+
+### 4.4 ¿Cuál es la peor película de acuerdo a los votos de todos los usuarios?
+
+```{r echo=FALSE}
+peliculas[peliculas$vote_average == min(peliculas$vote_average),'original_title']
+```
+
+### 4.5 ¿Cuántas películas se hicieron en cada año? ¿En qué año se hicieron más películas? Hacer un gráfico de barras 
+
+```{r echo=FALSE}
+release_year <- data.frame(table(peliculas$release_year))
+release_date <- data.frame(table(peliculas$release_date))
+
+library (ggplot2)
+ggplot(peliculas, aes(release_year)) +
+  theme(axis.text.x=element_text(angle=-90))+
+  labs(title='Años de lanzamiento')+
+  geom_bar()+
+  scale_x_binned(n.breaks=40)  
+```
+
+En el gráfico se puede observar cuántas películas se hicieron por año y el año en el que más películas se hicieron fue el 2014
+
