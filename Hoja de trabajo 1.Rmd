@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo=FALSE}
 library(ggplot2)
 library(tidyr)
+library(dplyr)
 peliculas <- read.csv("tmdb-movies.csv")  
 ```
 
@@ -19,7 +20,7 @@ peliculas <- read.csv("tmdb-movies.csv")
 #### Cristopher Barrios
 #### Diego Ruiz
 
-#<div style="text-align: center"> 
+<div style="text-align: center"> 
 <h1>Hoja de Trabajo 1</h1>  
 ### Informe de analisis Exploratorio de peliculas
 </div style="text-align: center">
@@ -77,6 +78,24 @@ Como se puede ver en el gráfico, el género que predomina es el de Accion, con 
 
 ### 4.8 ¿Las películas de qué género principal obtuvieron mayores ganancias?
 
+```{r echo=FALSE}
+dataGroupedByGenre <- separate_rows(peliculas,genres,sep="\\|") %>%
+  group_by(genres) %>%
+  summarize(
+    revenue = sum(revenue),
+    ingresos_netos = sum(revenue) - sum(budget),
+    budget = sum(budget)
+    )
+peliculasConMayoresGanancias <- dataGroupedByGenre[order(-dataGroupedByGenre$ingresos_netos),]
+(head(peliculasConMayoresGanancias$genres, 5))
+```
 
 
 ### 4.9  ¿Las películas de qué género principal necesitaron mayor presupuesto?
+
+```{r echo=FALSE}
+peliculasConMayorPresupuesto <- dataGroupedByGenre[order(-dataGroupedByGenre$budget),]
+print("Top 5 generos con mayor presupuesto")
+print(head(peliculasConMayorPresupuesto$genres, 5))
+```
+
