@@ -11,11 +11,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, echo=FALSE}
 library(ggplot2)
+library(tidyr)
 peliculas <- read.csv("tmdb-movies.csv")  
 ```
 
-## Hoja de Trabajo 1  
+#### Josué Sagastume
+#### Cristopher Barrios
+#### Diego Ruiz
+
+#<div style="text-align: center"> 
+<h1>Hoja de Trabajo 1</h1>  
 ### Informe de analisis Exploratorio de peliculas
+</div style="text-align: center">
 
 #### Descripción del Conjunto de Datos  
 El conjunto de datos está compuesto por  
@@ -42,10 +49,34 @@ release_date <- data.frame(table(peliculas$release_date))
 library (ggplot2)
 ggplot(peliculas, aes(release_year)) +
   theme(axis.text.x=element_text(angle=-90))+
-  labs(title='Años de lanzamiento')+
-  geom_bar()+
+  geom_bar(mapping = aes(x=release_year))+
   scale_x_binned(n.breaks=40)  
 ```
 
 En el gráfico se puede observar cuántas películas se hicieron por año y el año en el que más películas se hicieron fue el 2014
 
+### 4.6 ¿Cuál es el género principal de las 20 películas más populares?
+
+```{r echo=FALSE}
+popularity<-peliculas[with(peliculas,order(-peliculas$popularity)),]
+head(popularity$genres,20)
+
+```
+
+
+### 4.7 ¿Cuál es el género que predomina en el conjunto de datos? Representarlo usando un gráfico 
+
+```{r echo=FALSE}
+generos <- head(table(peliculas$genres))
+lbls <- paste(names(generos), generos)
+pie(generos, labels = lbls,
+   main="Generos que predominan")
+```
+
+Como se puede ver en el gráfico, el género que predomina es el de Accion, con una cantidad de 63 películas.
+
+### 4.8 ¿Las películas de qué género principal obtuvieron mayores ganancias?
+
+
+
+### 4.9  ¿Las películas de qué género principal necesitaron mayor presupuesto?
